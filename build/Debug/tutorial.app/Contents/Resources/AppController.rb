@@ -243,7 +243,7 @@ function nicodai() {
 			h = (document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight),
 			c = w / 544 < 1 ? 1 : w / 544,
 			d = h / 384 < 1 ? 1 : h / 384,
-			e = Math.min(c, d);
+			e = c <= d ? c : d;
 		a.SetVariable('videowindow.video_mc.video.smoothing' , 1);
 		a.SetVariable('videowindow.video_mc.video.deblocking', 5);
 		document.body.style.background = '#000 url()';
@@ -259,6 +259,10 @@ function nicodai() {
 			a.style.marginLeft = '0px';
 			a.style.marginTop  = (( h - 384 * c) / 2) + 'px';
 		}
+		b.style.width = a.style.width;
+		b.style.height = a.style.height;
+		b.style.padding = "0px";	
+		b.style.overflow = "visible"
 		D(a)
 		a.SetVariable('videowindow._xscale', 100*e);
 		a.SetVariable('videowindow._yscale', 100*e);
@@ -283,6 +287,7 @@ function nicodai() {
 }
 
 nicodai();
+window.onresize = function()  {  setTimeout(nicodai, 1000);  };
 
 		"OK"
 OOO
