@@ -16,8 +16,6 @@
 		A80056D90F1B75FB00BC8FFB /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A80056D80F1B75FB00BC8FFB /* Carbon.framework */; };
 		A80056F50F1B915800BC8FFB /* daigamen.js in Sources */ = {isa = PBXBuildFile; fileRef = A80056F40F1B915800BC8FFB /* daigamen.js */; };
 		A80057390F1B939C00BC8FFB /* daigamen.js in Resources */ = {isa = PBXBuildFile; fileRef = A80056F40F1B915800BC8FFB /* daigamen.js */; };
-		A80057900F1C244400BC8FFB /* ScreenManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A800578E0F1C244400BC8FFB /* ScreenManager.h */; };
-		A80057910F1C244400BC8FFB /* ScreenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A800578F0F1C244400BC8FFB /* ScreenManager.m */; };
 		A8EA480E0F1B2559004C2F71 /* AppController.rb in Resources */ = {isa = PBXBuildFile; fileRef = A8EA480D0F1B2559004C2F71 /* AppController.rb */; };
 		A8EA483D0F1B2C42004C2F71 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8EA483C0F1B2C42004C2F71 /* WebKit.framework */; };
 /* End PBXBuildFile section */
@@ -33,8 +31,6 @@
 		4DDCA7120ACC9A6100E082CE /* neee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = neee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A80056D80F1B75FB00BC8FFB /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		A80056F40F1B915800BC8FFB /* daigamen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = daigamen.js; sourceTree = "<group>"; };
-		A800578E0F1C244400BC8FFB /* ScreenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenManager.h; sourceTree = "<group>"; };
-		A800578F0F1C244400BC8FFB /* ScreenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenManager.m; sourceTree = "<group>"; };
 		A8EA480D0F1B2559004C2F71 /* AppController.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = AppController.rb; sourceTree = "<group>"; };
 		A8EA483C0F1B2C42004C2F71 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		E8F5E24E03AEB6EC03A81C6F /* RubyCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RubyCocoa.framework; path = /System/Library/Frameworks/RubyCocoa.framework; sourceTree = "<absolute>"; };
@@ -60,8 +56,6 @@
 			isa = PBXGroup;
 			children = (
 				A8EA480D0F1B2559004C2F71 /* AppController.rb */,
-				A800578E0F1C244400BC8FFB /* ScreenManager.h */,
-				A800578F0F1C244400BC8FFB /* ScreenManager.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -142,7 +136,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A80057900F1C244400BC8FFB /* ScreenManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +200,6 @@
 			files = (
 				4DDCA70A0ACC9A6100E082CE /* main.m in Sources */,
 				A80056F50F1B915800BC8FFB /* daigamen.js in Sources */,
-				A80057910F1C244400BC8FFB /* ScreenManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
