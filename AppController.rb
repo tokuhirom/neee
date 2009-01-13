@@ -31,6 +31,12 @@ class AppController < OSX::NSObject
 			@is_fullscreen = false
 		else
 			puts "ENABLE FULLSCREEN"
+			# p @window.setFrame_display_(NSZeroRect, true)
+			@window.setShowsResizeIndicator(false)
+			# @window.constrainFrameRect_toScreen_(NSZeroRect, NSScreen.mainScreen())
+			# @window.setFrame_display_(NSMakeRect(0,0,500,500), true)
+			# NSScreen.mainScreen().setContentView(@window.contentView)
+			# [newWindow setContentView:[oldWindow contentView]] 
 			@webview.enterFullScreenMode_withOptions_(NSScreen.mainScreen(), {})
 			p @webview.windowScriptObject.evaluateWebScript(@js + "\n;\nrun_neee(1);\n'OK'")
 			@is_fullscreen = true
