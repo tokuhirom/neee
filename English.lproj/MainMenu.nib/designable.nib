@@ -8,7 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="24"/>
+			<integer value="367"/>
+			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -568,7 +569,7 @@
 				<string key="NSName">_NSMainMenu</string>
 			</object>
 			<object class="NSWindowTemplate" id="513744381">
-				<int key="NSWindowStyleMask">15</int>
+				<int key="NSWindowStyleMask">13</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{100, 101}, {1024, 500}}</string>
 				<int key="NSWTFlags">603979776</int>
@@ -577,7 +578,7 @@
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<object class="NSView" key="NSWindowView" id="414427165">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -605,6 +606,7 @@
 							</object>
 							<string key="NSFrameSize">{1024, 500}</string>
 							<reference key="NSSuperview" ref="414427165"/>
+							<reference key="NSNextKeyView"/>
 							<string key="FrameName"/>
 							<string key="GroupName"/>
 							<object class="WebPreferences" key="Preferences">
@@ -630,6 +632,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{1024, 500}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
@@ -1356,6 +1359,7 @@
 					<string>-3.IBPluginDependency</string>
 					<string>103.IBPluginDependency</string>
 					<string>103.ImportedFromIB2</string>
+					<string>106.IBEditorWindowLastContentRect</string>
 					<string>106.IBPluginDependency</string>
 					<string>106.ImportedFromIB2</string>
 					<string>106.editorWindowContentRectSynchronizationRect</string>
@@ -1501,6 +1505,7 @@
 					<string>com.apple.InterfaceBuilderKit</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
+					<string>{{321, 297}, {216, 23}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{596, 852}, {216, 23}}</string>

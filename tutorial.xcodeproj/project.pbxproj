@@ -13,6 +13,11 @@
 		4DDCA70A0ACC9A6100E082CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		4DDCA70C0ACC9A6100E082CE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		4DDCA70D0ACC9A6100E082CE /* RubyCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F5E24E03AEB6EC03A81C6F /* RubyCocoa.framework */; };
+		A80056D90F1B75FB00BC8FFB /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A80056D80F1B75FB00BC8FFB /* Carbon.framework */; };
+		A80056F50F1B915800BC8FFB /* daigamen.js in Sources */ = {isa = PBXBuildFile; fileRef = A80056F40F1B915800BC8FFB /* daigamen.js */; };
+		A80057390F1B939C00BC8FFB /* daigamen.js in Resources */ = {isa = PBXBuildFile; fileRef = A80056F40F1B915800BC8FFB /* daigamen.js */; };
+		A80057900F1C244400BC8FFB /* ScreenManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A800578E0F1C244400BC8FFB /* ScreenManager.h */; };
+		A80057910F1C244400BC8FFB /* ScreenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A800578F0F1C244400BC8FFB /* ScreenManager.m */; };
 		A8EA480E0F1B2559004C2F71 /* AppController.rb in Resources */ = {isa = PBXBuildFile; fileRef = A8EA480D0F1B2559004C2F71 /* AppController.rb */; };
 		A8EA483D0F1B2C42004C2F71 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8EA483C0F1B2C42004C2F71 /* WebKit.framework */; };
 /* End PBXBuildFile section */
@@ -26,6 +31,10 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		4DDCA7110ACC9A6100E082CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DDCA7120ACC9A6100E082CE /* tutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A80056D80F1B75FB00BC8FFB /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		A80056F40F1B915800BC8FFB /* daigamen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = daigamen.js; sourceTree = "<group>"; };
+		A800578E0F1C244400BC8FFB /* ScreenManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenManager.h; sourceTree = "<group>"; };
+		A800578F0F1C244400BC8FFB /* ScreenManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenManager.m; sourceTree = "<group>"; };
 		A8EA480D0F1B2559004C2F71 /* AppController.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = AppController.rb; sourceTree = "<group>"; };
 		A8EA483C0F1B2C42004C2F71 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		E8F5E24E03AEB6EC03A81C6F /* RubyCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RubyCocoa.framework; path = /System/Library/Frameworks/RubyCocoa.framework; sourceTree = "<absolute>"; };
@@ -40,6 +49,7 @@
 				4DDCA70C0ACC9A6100E082CE /* Cocoa.framework in Frameworks */,
 				4DDCA70D0ACC9A6100E082CE /* RubyCocoa.framework in Frameworks */,
 				A8EA483D0F1B2C42004C2F71 /* WebKit.framework in Frameworks */,
+				A80056D90F1B75FB00BC8FFB /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +60,8 @@
 			isa = PBXGroup;
 			children = (
 				A8EA480D0F1B2559004C2F71 /* AppController.rb */,
+				A800578E0F1C244400BC8FFB /* ScreenManager.h */,
+				A800578F0F1C244400BC8FFB /* ScreenManager.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -57,6 +69,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A80056D80F1B75FB00BC8FFB /* Carbon.framework */,
 				A8EA483C0F1B2C42004C2F71 /* WebKit.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				E8F5E24E03AEB6EC03A81C6F /* RubyCocoa.framework */,
@@ -106,6 +119,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A80056F40F1B915800BC8FFB /* daigamen.js */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -128,6 +142,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A80057900F1C244400BC8FFB /* ScreenManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +190,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A80057390F1B939C00BC8FFB /* daigamen.js in Resources */,
 				4DDCA7060ACC9A6100E082CE /* MainMenu.nib in Resources */,
 				4DDCA7070ACC9A6100E082CE /* InfoPlist.strings in Resources */,
 				4DDCA7080ACC9A6100E082CE /* rb_main.rb in Resources */,
@@ -190,6 +206,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DDCA70A0ACC9A6100E082CE /* main.m in Sources */,
+				A80056F50F1B915800BC8FFB /* daigamen.js in Sources */,
+				A80057910F1C244400BC8FFB /* ScreenManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

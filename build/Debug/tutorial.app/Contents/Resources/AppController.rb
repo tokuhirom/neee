@@ -216,144 +216,41 @@ EOF
 
 class AppController < OSX::NSObject
 	include OSX
+	# STARTUP_URL = "http://www.nicovideo.jp/watch/sm5637829"
+	STARTUP_URL = "http://localhost/"
 	ib_outlet :window, :webview
 	ib_action :onDaigamen
-
+	
 	# 画面表示完了後フック
 	def awakeFromNib()
+		@is_fullscreen = false
+		
+		p ScreenManager.doFullScreen()
+		# p @window.zoom(self)
+		# @window.setShowsToolbarButton(false)
+		@window.setTitle("HOGEHOGE")
+		@window.toggleToolbarShown(self)
+		@window.performZoom(self)
+
+		# load code
+		@js = open(NSBundle.mainBundle.resourcePath.fileSystemRepresentation + "/daigamen.js") {|io| io.read }
+
+		# load url
 		@webview.mainFrame.loadRequest(NSURLRequest.requestWithURL(
-			NSURL.URLWithString("http://www.nicovideo.jp/watch/sm5637829")
+			NSURL.URLWithString(STARTUP_URL)
 		))
 	end
 
 	# 大画面にする
 	def onDaigamen
-		p "DAIGAMEN!"
-
-		
-		foo =	<<'OOO'
-	dbg = []
-	function D (msg) { dbg.push(msg); document.getElementById("WATCHFOOTER").innerHTML = dbg.join("<br />\n") }
-	D("START");
-
-function nicodai() {
-		var a = $('flvplayer'),
-			b = $('flvplayer_container'),
-			w = document.body.clientWidth,
-			h = (document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight),
-			c = w / 544 < 1 ? 1 : w / 544,
-			d = h / 384 < 1 ? 1 : h / 384,
-			e = c <= d ? c : d;
-		a.SetVariable('videowindow.video_mc.video.smoothing' , 1);
-		a.SetVariable('videowindow.video_mc.video.deblocking', 5);
-		document.body.style.background = '#000 url()';
-		if(c >= d)  {
-			a.style.width      = Math.floor(544 * d) + 'px';
-			D(a.style.width)
-			a.style.height     = h + 'px';
-			a.style.marginLeft = (( w - 544 * d) / 2) + 'px';
-			a.style.marginTop  = '0px';
-		}  else  {
-			a.style.width      = w + 'px';
-			a.style.height     = Math.floor(384 * c) + 'px';
-			a.style.marginLeft = '0px';
-			a.style.marginTop  = (( h - 384 * c) / 2) + 'px';
-		}
-		b.style.width = a.style.width;
-		b.style.height = a.style.height;
-		b.style.padding = "0px";	
-		b.style.overflow = "visible"
-		D(a)
-		a.SetVariable('videowindow._xscale', 100*e);
-		a.SetVariable('videowindow._yscale', 100*e);
-		a.SetVariable('videowindow._x'     ,   0  );
-		a.SetVariable('videowindow._y'     ,   0  );
-		a.SetVariable('controller._x'      ,-550  );
-		a.SetVariable('inputArea._x'       ,-550  );
-		//
-		a.SetVariable('controller._visible',   1  );
-		a.SetVariable('inputArea._visible' ,   1  );
-		a.SetVariable('waku._visible'      ,   0  );
-		a.SetVariable('header._visible'    ,   0  );
-		a.SetVariable('tabmenu._visible'   ,   0  );
-		document.body.style.background = "white"
-		var elems = ['PAGEHEADER', 'PAGEFOOTER', 'WATCHHEADER', 'WATCHFOOTER']
-//		var elems = ['PAGEHEADER', 'PAGEFOOTER', 'WATCHHEADER'];
-		D("HMM")
-		for (i=0; i<elems.length; i++) {
-			document.getElementById(elems[i]).style.display = "none"
-		}
-		D("FIN")
-}
-
-nicodai();
-window.onresize = function()  {  setTimeout(nicodai, 1000);  };
-
-		"OK"
-OOO
-#		foo = foo.gsub(/\*e/, "* #{e.to_f}")
-# 		foo = foo.gsub(/^a/, "document.getElementById('flvplayer')")
-		p @webview.windowScriptObject.evaluateWebScript(foo)
-
-
-		#p @webview.stringByEvaluatingJavaScriptFromString("window")
-		# bookmarklet = "javascript:function%20nicodai(){if(playerMaximized){var%20a=$('flvplayer'),b=$('flvplayer_container'),w=document.body.clientWidth,h=(document.documentElement.clientHeight?document.documentElement.clientHeight:document.body.clientHeight),c=w/544%3C1?1:w/544,d=h/384%3C1?1:h/384,e=c%3C=d?c:d;a.SetVariable('videowindow.video_mc.video.smoothing',1);a.SetVariable('videowindow.video_mc.video.deblocking',5);document.body.style.background='#000%20url()';if(c%3E=d){a.style.width=Math.floor(544*d)+'px';a.style.height=h+'px';a.style.marginLeft=((w-544*d)/2)+'px';a.style.marginTop='0px';}else{a.style.width=w+'px';a.style.height=Math.floor(384*c)+'px';a.style.marginLeft='0px';a.style.marginTop=((h-384*c)/2)+'px';}a.SetVariable('videowindow._xscale',100*e);a.SetVariable('videowindow._yscale',100*e);a.SetVariable('videowindow._x',0);a.SetVariable('videowindow._y',0);a.SetVariable('controller._x',-550);a.SetVariable('inputArea._x',-550);a.SetVariable('controller._visible',1);a.SetVariable('inputArea._visible',1);a.SetVariable('waku._visible',0);a.SetVariable('header._visible',0);a.SetVariable('tabmenu._visible',0);}}(function(){toggleMaximizePlayer();if(playerMaximized){nicodai();var%20dt=new%20Date();dt.setHours(dt.getHours()+24);document.cookie='nicodai'+'='+escape('true')+';%20expires='+dt.toGMTString()+';';window.onresize=function(){setTimeout(nicodai,1000);};}else{var%20a=$('flvplayer');document.body.style.background='%23FFF%20url(\'../img/tpl/bg_rc2.gif\')%20repeat-x';a.style.marginLeft='';a.style.marginTop='';a.SetVariable('videowindow._xscale',100);a.SetVariable('videowindow._yscale',100);a.SetVariable('videowindow._x',6);a.SetVariable('videowindow._y',65);a.SetVariable('controller._x',6);a.SetVariable('inputArea._x',4);a.SetVariable('controller._visible',1);a.SetVariable('inputArea._visible',1);a.SetVariable('waku._visible',1);a.SetVariable('header._visible',1);a.SetVariable('tabmenu._visible',1);document.cookie='nicodai'+'=;';window.onresize=function(){};}})();"
-		# bookmarklet.gsub!(/^javascript:/, '')
-		# bookmarklet = URI.unescape(bookmarklet)
-	#	p "HOHOE"
-	#	p @webview.windowScriptObject.evaluateWebScript('document.body')
-	#	p @webview.windowScriptObject.evaluateWebScript('document.body.style.color="red"')
-
-
-#		puts "flvplayer"
-#		p @webview.windowScriptObject.evaluateWebScript(%q{document.evaluate("id('flvplayer')", document, null, 7, null).snapshotLength})
-#		p @webview.windowScriptObject.evaluateWebScript(%q{document.evaluate("//embed[@id='flvplayer']", document, null, 7, null).snapshotItem(0)})
-#		p @webview.windowScriptObject.evaluateWebScript('document')
-#		bookmarklet = "(function (document) { document.getElementById('flvplayer_container').removeElement(); \n })"
-		# bookmarklet = "(function (document) { \n #{ $src } \n })"
-#		func = @webview.windowScriptObject.evaluateWebScript(bookmarklet)
-#		p func
-#		document = @webview.mainFrame.DOMDocument
-#		jsthis = func.evaluateWebScript('this')
-#		p jsthis
-#		p document
-#		func.callWebScriptMethod_withArguments("call", [jsthis, document])
-#		puts "O_________________"
-		# @webview.windowScriptObject().evaluateWebScript(bookmarklet)
-		# @webview.windowScriptObject.
-#		@webview.mainFrame.loadRequest(NSURLRequest.requestWithURL(
-#			NSURL.URLWithString("javascript:alert('ho')")
-#		))
-		puts "FINISHED"
-	end
-
-#	private
-#	def _getid(id)
-#		@webview.windowScriptObject.evaluateWebScript("window.document.getElementById('#{id}')")
-#	end
-end
-__END__
-
-		document = @webview.mainFrame.DOMDocument
-		a = document.getElementById('flvplayer')
-		b = document.getElementById('flvplayer_container')
-		w = document.body.clientWidth.to_f
-		h = document.documentElement.clientHeight.to_f
-		c = w / 544 < 1 ? 1 : w / 544
-		d = h / 384 < 1 ? 1 : h / 384
-		e = c <= d ? c : d
-		p [a, b, w, h, c, d, e]
-		# a.SetVariable('videowindow.video_mc.video.smoothing' , 1);
-		# a.SetVariable('videowindow.video_mc.video.deblocking', 5);
-		document.body.style.background = '#000 url()'
-		if (c >= d)
-			a.style.width      = (544 * d).floor.to_s + 'px'
-			a.style.height     = h.to_s + 'px'
-			a.style.marginLeft = (( w - 544 * d) / 2).to_s + 'px'
-			a.style.marginTop  = '0px'	
+		if @is_fullscreen
+			puts "DISABLE FULLSCREEN"
+			p @webview.windowScriptObject.evaluateWebScript(@js + "\n;\nrun_neee(0);\n'OK'")
+			@is_fullscreen = false
 		else
-			a.style.width      = w.to_s + 'px'
-			a.style.height     = (384 * c).floor.to_s + 'px'
-			a.style.marginLeft = '0px'
-			a.style.marginTop  = (( h - 384 * c) / 2).to_s + 'px'
+			puts "ENABLE FULLSCREEN"
+			p @webview.windowScriptObject.evaluateWebScript(@js + "\n;\nrun_neee(1);\n'OK'")
+			@is_fullscreen = true
 		end
+	end
+end
