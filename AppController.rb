@@ -31,15 +31,70 @@ class AppController < OSX::NSObject
 			@is_fullscreen = false
 		else
 			puts "ENABLE FULLSCREEN"
-			# p @window.setFrame_display_(NSZeroRect, true)
 			@window.setShowsResizeIndicator(false)
-			# @window.constrainFrameRect_toScreen_(NSZeroRect, NSScreen.mainScreen())
-			# @window.setFrame_display_(NSMakeRect(0,0,500,500), true)
-			# NSScreen.mainScreen().setContentView(@window.contentView)
-			# [newWindow setContentView:[oldWindow contentView]] 
 			@webview.enterFullScreenMode_withOptions_(NSScreen.mainScreen(), {})
 			p @webview.windowScriptObject.evaluateWebScript(@js + "\n;\nrun_neee(1);\n'OK'")
 			@is_fullscreen = true
 		end
 	end
+	
+	# leopard より前の OS でもつかえるというフルスクリーンにする方法
+	def _goFullScreen
+		mainScreen = NSScreen.mainScreen()
+		screenInfo = mainScreen.deviceDescription()
+		screenID = screenInfo['NSScreenNumber']
+		displayID = screenID.longValue
+		err = CGDisplayCapture(displayID)
+		if err == CGDisplayNoErr
+			@captured = displayID
+			if !@myScreenWindow
+				winRect = mainScreen.frame
+				@myScreenWindow = NSWindow.alloc.initWithContentRect_styleMask_backing_defer_screen(
+					winRect,
+					NSBorderlessWindowMask,
+					NSBackingStoreBuffered,
+					false,
+					NSScreen.mainScreen
+				)
+				@myScreenWindow.setReleasedWhenClosed(false)
+				@myScreenWindow.setDisplaysWhenScreenProfileChanges(true)
+				@myScreenWindow.setDelegate(self)
+
+				shieldLevel = CGShieldingWindowLevel()
+				@myScreenWindow.setLevel(shieldLevel)
+				@myScreenWindow.makeKeyAndOrderFront(self)
+			end
+			@myScreenWindow.setContentView(@webview)
+		end
+	end
 end
+
+__END__
+メモ:
+	@webview.enterFullScreenMode_withOptions_() は、なぜかリロードがはしってしまうので駄目。
+	setContentView で他のウィンドウに webview をつけかえるとリロードがはしるようだ
+	
+        // Make the screen window the current document window.
+        // Be sure to retain the previous window if you want to  use it again.
+        NSWindowController* winController = [[self windowControllers]
+                                                 objectAtIndex:0];
+        [winController setWindow:myScreenWindow];
+
+ 
+
+        // The window has to be above the level of the shield window.
+
+        int32_t     shieldLevel = CGShieldingWindowLevel();
+
+        [myScreenWindow setLevel:shieldLevel];
+
+ 
+
+        // Show the window.
+
+        [myScreenWindow makeKeyAndOrderFront:self];
+
+    }
+
+}
+
