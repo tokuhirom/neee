@@ -7,13 +7,14 @@ class AppController < OSX::NSObject
 	STARTUP_URL = "http://www.nicovideo.jp/watch/sm5637829"
 	# STARTUP_URL = "http://localhost/"
 	ib_outlet :window, :webview
-	ib_action :onDaigamen
-	
+
 	# 画面表示完了後フック
 	def awakeFromNib()
 		@is_fullscreen = false
+		
+		@webview.setResourceLoadDelegate(self)
 
-		# load code
+		# load javascript code
 		@js = open(NSBundle.mainBundle.resourcePath.fileSystemRepresentation + "/daigamen.js") {|io| io.read }
 
 		# load url
@@ -21,80 +22,48 @@ class AppController < OSX::NSObject
 			NSURL.URLWithString(STARTUP_URL)
 		))
 	end
+	
+	def webView_resource_didFinishLoadingFromDataSource(sender, identifier, dataSource)
+		@window.setTitle("#{dataSource.pageTitle} - Neee")
+	end
 
 	# 大画面にする
-	def onDaigamen
-		if @is_fullscreen
-			puts "DISABLE FULLSCREEN"
-			@webview.exitFullScreenModeWithOptions({})
-			p @webview.windowScriptObject.evaluateWebScript(@js + "\n;\nrun_neee(0);\n'OK'")
-			@is_fullscreen = false
-		else
-			puts "ENABLE FULLSCREEN"
-			@window.setShowsResizeIndicator(false)
-			@webview.enterFullScreenMode_withOptions_(NSScreen.mainScreen(), {})
-			p @webview.windowScriptObject.evaluateWebScript(@js + "\n;\nrun_neee(1);\n'OK'")
-			@is_fullscreen = true
-		end
-	end
-	
-	# leopard より前の OS でもつかえるというフルスクリーンにする方法
-	def _goFullScreen
-		mainScreen = NSScreen.mainScreen()
-		screenInfo = mainScreen.deviceDescription()
-		screenID = screenInfo['NSScreenNumber']
-		displayID = screenID.longValue
-		err = CGDisplayCapture(displayID)
-		if err == CGDisplayNoErr
-			@captured = displayID
-			if !@myScreenWindow
-				winRect = mainScreen.frame
-				@myScreenWindow = NSWindow.alloc.initWithContentRect_styleMask_backing_defer_screen(
-					winRect,
-					NSBorderlessWindowMask,
-					NSBackingStoreBuffered,
-					false,
-					NSScreen.mainScreen
-				)
-				@myScreenWindow.setReleasedWhenClosed(false)
-				@myScreenWindow.setDisplaysWhenScreenProfileChanges(true)
-				@myScreenWindow.setDelegate(self)
+	ib_action(:onDaigamen) {|sender|
+		@is_daigamen = !@is_daigamen
 
-				shieldLevel = CGShieldingWindowLevel()
-				@myScreenWindow.setLevel(shieldLevel)
-				@myScreenWindow.makeKeyAndOrderFront(self)
-			end
-			@myScreenWindow.setContentView(@webview)
+		wso = @webview.windowScriptObject()
+		p wso.setValue_forKey_(
+			@is_daigamen,
+			"neee_maximized"
+		)
+		ret = wso.evaluateWebScript(@js)
+		
+		# debugging stuff
+		puts wso.evaluateWebScript('dbg.join("\n")').to_s.split(/\n/).map {|x| "JS DEBUG: #{x}\n"}
+
+		if ret != 'OK'
+			puts "ERROR: #{ ret }"
 		end
-	end
+	}
+	
+	ib_action(:onFullScreen) {|sender|
+		@is_fullscreen = !@is_fullscreen
+
+		if @is_fullscreen
+			@webview.reload(self) # 大画面とこれとで相性わるい。なぜか。MegaZoomer だと問題ないのになあ
+			@webview.enterFullScreenMode_withOptions_(NSScreen.mainScreen(), {})
+		else
+			@webview.exitFullScreenModeWithOptions({})
+		end
+	}
 end
 
 __END__
 メモ:
-	@webview.enterFullScreenMode_withOptions_() は、なぜかリロードがはしってしまうので駄目。
+	@webview.enterFullScreenMode_withOptions_() は、なぜかリロードがはしってしまうのがいかん
 	setContentView で他のウィンドウに webview をつけかえるとリロードがはしるようだ
-	
-        // Make the screen window the current document window.
-        // Be sure to retain the previous window if you want to  use it again.
-        NSWindowController* winController = [[self windowControllers]
-                                                 objectAtIndex:0];
-        [winController setWindow:myScreenWindow];
-
- 
-
-        // The window has to be above the level of the shield window.
-
-        int32_t     shieldLevel = CGShieldingWindowLevel();
-
-        [myScreenWindow setLevel:shieldLevel];
-
- 
-
-        // Show the window.
-
-        [myScreenWindow makeKeyAndOrderFront:self];
-
-    }
-
-}
-
+	megazoomer だと、はしらないんだよな
+	ページ遷移した時点で @is_daigamen をクリアするべき?
+	イヤ、モウイッカイハシラスベキカ。
+TODO:
+	URLをコピー
