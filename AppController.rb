@@ -17,10 +17,7 @@ class AppController < OSX::NSObject
 		# load javascript code
 		@js = open(NSBundle.mainBundle.resourcePath.fileSystemRepresentation + "/daigamen.js") {|io| io.read }
 
-		# load url
-		@webview.mainFrame.loadRequest(NSURLRequest.requestWithURL(
-			NSURL.URLWithString(STARTUP_URL)
-		))
+		_loadURL(STARTUP_URL)
 	end
 	
 	def webView_resource_didFinishLoadingFromDataSource(sender, identifier, dataSource)
@@ -56,6 +53,27 @@ class AppController < OSX::NSObject
 			@webview.exitFullScreenModeWithOptions({})
 		end
 	}
+	
+	ib_action(:onCopyURL) {|sender|
+		url = @webview.mainFrameURL()
+
+		pboard = NSPasteboard.generalPasteboard
+		pboard.declareTypes_owner([NSStringPboardType], self)
+		pboard.setString_forType(url, NSStringPboardType) 
+	}
+	
+	ib_action(:onPasteURL) {|sender|
+		pboard = NSPasteboard.generalPasteboard
+		url = pboard.stringForType(NSStringPboardType) 
+		_loadURL(url)
+	}
+	
+	private
+	def _loadURL(url)
+		@webview.mainFrame.loadRequest(NSURLRequest.requestWithURL(
+			NSURL.URLWithString(url)
+		))
+	end
 end
 
 __END__
@@ -66,4 +84,6 @@ __END__
 	ページ遷移した時点で @is_daigamen をクリアするべき?
 	イヤ、モウイッカイハシラスベキカ。
 TODO:
-	URLをコピー
+	履歴表示
+	メニューからショートカットでランキングへ
+	http://www.nicovideo.jp/ranking/mylist/daily/all
