@@ -68,6 +68,13 @@ class AppController < OSX::NSObject
 		_loadURL(url)
 	}
 	
+	ib_action(:onGotoMyListDailyRanking) {|sender|
+		_loadURL("http://www.nicovideo.jp/ranking/mylist/daily/all")
+	}
+	ib_action(:onGotoHateb) {|sender|
+		_loadURL("http://b.hatena.ne.jp/video?src=nicovideo")
+	}
+	
 	private
 	def _loadURL(url)
 		@webview.mainFrame.loadRequest(NSURLRequest.requestWithURL(
@@ -85,5 +92,3 @@ __END__
 	イヤ、モウイッカイハシラスベキカ。
 TODO:
 	履歴表示
-	メニューからショートカットでランキングへ
-	http://www.nicovideo.jp/ranking/mylist/daily/all

@@ -1,3 +1,5 @@
+// based on ニコニコ大画面
+// http://yuichis.homeip.net/nicodai.user.html
 dbg = []
 function D (msg) { dbg.push(msg); }
 D("START");
